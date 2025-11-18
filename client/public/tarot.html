@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="assets/styles/global.css">
+  <link rel="stylesheet" href="assets/styles/tarot-style.css">
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+  <title data-i18n="meta.title">Tarot reading</title>
+</head>
+
+<body id="tarot-page">
+  <a href="index.html" class="home-btn" data-i18n="nav.back">&lt;</a>
+  <button id="lang-toggle" aria-label="Switch language" aria-pressed="false">TH</button>
+  <button id="info-btn">🔮</button>
+  <div id="info-box">
+    <h2>วิธีการใช้งาน</h2>
+    <p>พิมพ์คำถามของคุณลงในช่อง จากนั้นกด “Draw” เพื่อให้ไพ่สับและคลี่ออกมา เลือกไพ่ที่คุณรู้สึกถูกชะตา
+      เมื่อมั่นใจแล้วกด “Confirm” เพื่อรับคำทำนายพร้อมกับไพ่แต่ละใบที่แสดงเรื่องราวเฉพาะของคุณ</p>
+  </div>
+
+  <div class="bg">
+    <div class="star-field">
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+    </div>
+  </div>
+
+  <div class="layout" id="tarot-layout">
+    <main>
+      <h1 data-i18n="hero.title">Tarot reading</h1>
+
+      <div id="question">
+        <label data-i18n="hero.desc">Ask the question then the universe will tell you...</label><br>
+        <input type="text" class="text-input" id="quest" name="quest" required value=""
+          data-i18n-attr="placeholder:form.namePlaceholder" placeholder="type here...">
+      </div>
+
+      <div id="card-count-container">
+        <label for="card-count" data-i18n="form.cardCountLabel">Choose number of cards</label>
+        <select id="card-count">
+          <option value="3" data-i18n="form.option3">3 Cards</option>
+          <option value="5" data-i18n="form.option5">5 Cards</option>
+        </select>
+      </div>
+
+      <div id="btn-container">
+        <button class="btn" id="draw-btn" data-i18n="form.drawBtn">Draw a Card</button>
+        <button class="btn" id="reset" data-i18n="form.resetBtn">Reset</button>
+      </div>
+
+      <div id="popup" class="popup">
+        <div class="popup-content">
+          <div id="popup-message"></div>
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <ul class="cards">
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+        <li class="card"></li>
+      </ul>
+      <div id="card-result"></div>
+    </aside>
+  </div>
+
+  <div id="loading-answer">
+    <div class="spinner"></div>
+    <span data-i18n="loading.message">กำลังตีความไพ่ให้คุณ โปรดรอสักครู่...</span>
+  </div>
+
+  <script src="scripts/draw-card.js" type="module"></script>
+  <script>
+    const infoBtn = document.getElementById("info-btn");
+    const infoBox = document.getElementById("info-box");
+
+    infoBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      infoBox.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!infoBox.contains(e.target) && e.target !== infoBtn) {
+        infoBox.classList.remove("show");
+      }
+    });
+  </script>
+  <script>
+    const I18N_CACHE = {
+      en: {
+        "meta.title": "Tarot reading",
+        "hero.title": "Tarot reading",
+        "hero.desc": "Ask the question then the universe will tell you...",
+        "form.nameLabel": "question",
+        "form.namePlaceholder": "type here...",
+        "form.cardCountLabel": "Choose number of cards",
+        "form.option3": "3 Cards",
+        "form.option5": "5 Cards",
+        "form.drawBtn": "Draw a Card",
+        "form.confirmBtn": "Confirm",
+        "form.resetBtn": "Reset",
+        "nav.back": "<",
+        "loading.message": "Interpreting your cards, please wait...",
+        "images.hero": "/images/hero_en.png"
+      },
+      th: {
+        "meta.title": "ดูดวงไพ่ทาโรต์",
+        "hero.title": "ดูดวงไพ่ทาโรต์",
+        "hero.desc": "ถามคำถามแล้วจักรวาลจะตอบคุณ...",
+        "form.nameLabel": "คำถาม",
+        "form.namePlaceholder": "กรอกตรงนี้...",
+        "form.cardCountLabel": "เลือกจำนวนไพ่",
+        "form.option3": "3 ใบ",
+        "form.option5": "5 ใบ",
+        "form.drawBtn": "จั่วไพ่",
+        "form.confirmBtn": "ยืนยัน",
+        "form.resetBtn": "รีเซ็ต",
+        "nav.back": "<",
+        "loading.message": "กำลังตีความไพ่ให้คุณ โปรดรอสักครู่...",
+        "images.hero": "/images/hero_th.png"
+      }
+    };
+
+
+    const DEFAULT_LANG = 'en';
+    const LANG_KEY = 'siteLang'; // localStorage key
+
+    // Helper: get currently selected language (fallback to browser preference or DEFAULT_LANG)
+    function getStoredLang() {
+      const stored = localStorage.getItem(LANG_KEY);
+      if (stored) return stored;
+      // optional: auto-detect from navigator
+      const nav = navigator.language || navigator.userLanguage || '';
+      if (nav.startsWith('th')) return 'th';
+      return DEFAULT_LANG;
+    }
+
+    // Get translation for a key with fallback to english or the key itself
+    function t(lang, key) {
+      if (I18N_CACHE[lang] && I18N_CACHE[lang][key] !== undefined) return I18N_CACHE[lang][key];
+      if (I18N_CACHE[DEFAULT_LANG] && I18N_CACHE[DEFAULT_LANG][key] !== undefined) return I18N_CACHE[DEFAULT_LANG][key];
+      return key; // last resort: return the key so devs can notice missing translations
+    }
+
+    // Apply translations to the entire page
+    function applyTranslations(lang) {
+      // Set lang attribute on <html> for accessibility + screen readers + search engines
+      document.documentElement.lang = (lang === 'th') ? 'th' : 'en';
+
+      // 1) Elements with data-i18n: text/HTML replacement
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const txt = t(lang, key);
+        // By default use textContent to avoid XSS; allow innerHTML only if explicitly asked (see data-i18n-html)
+        if (el.hasAttribute('data-i18n-html')) {
+          // WARNING: ensure translations are sanitized if they come from external sources
+          el.innerHTML = txt;
+        } else {
+          el.textContent = txt;
+        }
+      });
+
+      // 2) Attributes: data-i18n-attr="placeholder:key;title:key2"
+      document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+        const map = el.getAttribute('data-i18n-attr'); // e.g. "placeholder:form.namePlaceholder;title:form.nameTitle"
+        map.split(';').forEach(pair => {
+          const [attr, key] = pair.split(':').map(s => s.trim());
+          if (!attr || !key) return;
+          const val = t(lang, key);
+          // For form elements, value vs placeholder
+          if (attr === 'value') {
+            if ('value' in el) el.value = val;
+            else el.setAttribute('value', val);
+          } else {
+            el.setAttribute(attr, val);
+          }
+        });
+      });
+
+      // 3) Images / src changes: data-i18n-src="images.hero"
+      document.querySelectorAll('[data-i18n-src]').forEach(img => {
+        const key = img.getAttribute('data-i18n-src');
+        const src = t(lang, key);
+        if (src) img.src = src;
+      });
+
+      // 4) Update toggle button display & store choice
+      updateToggleButton(lang);
+      localStorage.setItem(LANG_KEY, lang);
+    }
+
+    // Toggle button logic: shows the language TO SWITCH TO as its text (per requirement)
+    function updateToggleButton(currentLang) {
+      const btn = document.getElementById('lang-toggle');
+      if (!btn) return;
+      // If currentLang is 'en', button should show 'TH' (user clicks to switch to Thai)
+      const buttonLabel = (currentLang === 'en') ? 'TH' : 'EN';
+      btn.textContent = buttonLabel;
+      // Update aria-pressed to indicate current state
+      btn.setAttribute('aria-pressed', currentLang === 'th' ? 'true' : 'false');
+      btn.setAttribute('title', currentLang === 'en' ? 'Switch to Thai' : 'Switch to English');
+    }
+
+    // Setup event listeners on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      let lang = getStoredLang();
+      applyTranslations(lang);
+
+      // If you want to lazy-load translations from JSON files instead of the inlined I18N_CACHE,
+      // call an async loader here and then applyTranslations after the fetch completes.
+
+      const btn = document.getElementById('lang-toggle');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          // currentLang is the one stored in localStorage (after applyTranslations it's set)
+          const current = localStorage.getItem(LANG_KEY) || DEFAULT_LANG;
+          const target = (current === 'en') ? 'th' : 'en';
+          applyTranslations(target);
+          // If your site is SPA or route changes, ensure applyTranslations runs after each route change.
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="assets/styles/global.css">
+    <link rel="stylesheet" href="assets/styles/astrology-style.css">
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <title>Western Astrology</title>
+</head>
+
+<body id="astrology">
+    <a href="index.html" class="home-btn">&lt;</a>
+    <button id="lang-toggle" aria-label="Switch language" aria-pressed="false">TH</button>
+    <button id="info-btn">🔮</button>
+    <div id="info-box">
+        <h2>วิธีการใช้งาน</h2>
+        <p>กรอกวัน เดือน ปีเกิด เวลาเกิด และสถานที่เกิด
+            เพื่อคำนวณตำแหน่งดวงดาวที่จะบอกภาพรวมดวงชะตาชีวิตของคุณตลอดทั้งชีวิต</p>
+    </div>
+    <div class="bg">
+        <div class="star-field">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+    </div>
+    <div class="layout">
+        <main>
+            <h1 id="astro-h1">Western Astrology</h1>
+            <label><span>Tell us when and where you were born —the stars will reflect your soul and reveal who you truly are.</span></label>
+            <div id="information">
+                <!-- วัน เดือน ปี -->
+                <label for="dob-day">Born</label>
+                <select id="dob-day">
+                    <option value="">Day</option>
+                    <script>
+                        for (let i = 1; i <= 31; i++) {
+                            document.write(`<option value="${i}">${String(i).padStart(2, "0")}</option>`);
+                        }
+                    </script>
+                </select>
+
+                <select id="dob-month">
+                    <option value="">Month</option>
+                    <script>
+                        const months = [
+                            "January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"
+                        ];
+                        months.forEach((m, idx) => {
+                            document.write(`<option value="${idx + 1}">${m}</option>`);
+                        });
+                    </script>
+                </select>
+
+                <select id="dob-year">
+                    <option value="">Year</option>
+                    <script>
+                        let currentYear = new Date().getFullYear();
+                        for (let y = currentYear; y >= 1900; y--) {
+                            document.write(`<option value="${y}">${y}</option>`);
+                        }
+                    </script>
+                </select>
+
+                <!-- เวลาเกิด แยกบรรทัดใหม่ -->
+                <div>
+                    <label for="hour">When</label>
+                    <select id="hour">
+                        <option value="">Hour</option>
+                        <script>
+                            for (let i = 0; i < 24; i++) {
+                                document.write(`<option value="${i}">${String(i).padStart(2, "0")}</option>`);
+                            }
+                        </script>
+                    </select>
+                    :
+                    <select id="minute">
+                        <option value="">Minute</option>
+                        <script>
+                            for (let i = 0; i < 60; i++) {
+                                document.write(`<option value="${i}">${String(i).padStart(2, "0")}</option>`);
+                            }
+                        </script>
+                    </select>
+                </div>
+                <label for="placeOfBirth">Where</label>
+                <input type="text" class="text-input" id="placeOfBirth" name="placeOfBirth"
+                    placeholder="Where you were born" autocomplete="off">
+
+                <!-- กล่อง autocomplete -->
+                <ul id="suggestions"
+                    style="list-style:none; margin:0; padding:0; border:1px solid #ccc; max-width:300px; position:absolute; background:white; z-index:1000;">
+                </ul>
+                <br>
+
+                <!-- ช่อง lat/lon -->
+                <label for="latitude">Latitude</label>
+                <input type="text" class="text-input" id="latitude" readonly>
+
+                <label for="longitude">Longitude</label>
+                <input type="text" class="text-input" id="longitude" readonly>
+            </div>
+            <div id="btn-container">
+                <button class="btn" id="planet-btn">See Your planet</button>
+            </div>
+
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <div id="popup-message"></div>
+                </div>
+            </div>
+        </main>
+        <aside>
+            <div id="astrology-aside">
+                <img src="assets/images/astrology-new.png" alt="astrology">
+            </div>
+        </aside>
+
+        <script src="scripts/astrology.js" type="module"></script>
+        <script src="scripts/location.js" type="module"></script>
+        <script>
+            const infoBtn = document.getElementById("info-btn");
+            const infoBox = document.getElementById("info-box");
+
+            infoBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                infoBox.classList.toggle("show");
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!infoBox.contains(e.target) && e.target !== infoBtn) {
+                    infoBox.classList.remove("show");
+                }
+            });
+        </script>
+        <script>
+            const translations = {
+                en: {
+                    title: "Western Astrology",
+                    desc: "Tell us when and where you were born — the stars will reflect your soul and reveal who you truly are.",
+                    born: "Born",
+                    day: "Day",
+                    month: "Month",
+                    year: "Year",
+                    when: "When",
+                    hour: "Hour",
+                    minute: "Minute",
+                    where: "Where",
+                    placeholderWhere: "Where you were born",
+                    latitude: "Latitude",
+                    longitude: "Longitude",
+                    planet: "See Your planet",
+                    house: "See Your house"
+                },
+                th: {
+                    title: "โหราศาสตร์ตะวันตก",
+                    desc: "บอกวันและสถานที่เกิดของคุณ — ดวงดาวจะสะท้อนตัวตนและเผยว่าคุณเป็นใครอย่างแท้จริง",
+                    born: "วันเกิด",
+                    day: "วัน",
+                    month: "เดือน",
+                    year: "ปี",
+                    when: "เวลาเกิด",
+                    hour: "ชั่วโมง",
+                    minute: "นาที",
+                    where: "สถานที่เกิด",
+                    placeholderWhere: "สถานที่ที่คุณเกิด",
+                    latitude: "ละติจูด",
+                    longitude: "ลองจิจูด",
+                    planet: "ดูดาวประจำตัว",
+                    house: "ดูเรือนประจำตัว"
+                }
+            };
+
+            const LANG_KEY = "siteLang";
+            const DEFAULT_LANG = "en";
+
+            function getLang() {
+                return localStorage.getItem(LANG_KEY) || DEFAULT_LANG;
+            }
+
+            function applyLang(lang) {
+                document.documentElement.lang = lang;
+
+                document.querySelector("h1").textContent = translations[lang].title;
+                document.querySelector("label span").textContent = translations[lang].desc;
+                document.querySelector("label[for='dob-day']").textContent = translations[lang].born;
+
+                const selects = {
+                    "#dob-day option[value='']": translations[lang].day,
+                    "#dob-month option[value='']": translations[lang].month,
+                    "#dob-year option[value='']": translations[lang].year,
+                    "#hour option[value='']": translations[lang].hour,
+                    "#minute option[value='']": translations[lang].minute,
+                };
+                for (const sel in selects) {
+                    const el = document.querySelector(sel);
+                    if (el) el.textContent = selects[sel];
+                }
+
+                document.querySelector("label[for='hour']").textContent = translations[lang].when;
+                document.querySelector("label[for='placeOfBirth']").textContent = translations[lang].where;
+                document.querySelector("#placeOfBirth").placeholder = translations[lang].placeholderWhere;
+                document.querySelector("label[for='latitude']").textContent = translations[lang].latitude;
+                document.querySelector("label[for='longitude']").textContent = translations[lang].longitude;
+
+                document.getElementById("planet-btn").textContent = translations[lang].planet;
+
+                // toggle button text
+                const btn = document.getElementById("lang-toggle");
+                btn.textContent = lang === "en" ? "TH" : "EN";
+                btn.setAttribute("aria-pressed", lang === "th");
+                localStorage.setItem(LANG_KEY, lang);
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                let lang = getLang();
+                applyLang(lang);
+
+                const btn = document.getElementById("lang-toggle");
+                btn.addEventListener("click", () => {
+                    const newLang = getLang() === "en" ? "th" : "en";
+                    applyLang(newLang);
+                });
+            });
+        </script>
+</body>
+
+</html>

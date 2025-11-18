@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astra★</title>
+  <link rel="stylesheet" href="assets/styles/main-style.css">
+</head>
+
+<body>
+  <header class="site-header">
+  <div class="header-content">
+    <div class="department-logo"><h1>Astra★</h1></div>
+    
+    <div class="right-group">
+    <nav class="main-nav">
+      <ul class="nav-menu">
+        <li><a href="#home">หน้าแรก</a></li>
+        <li><a href="#programs">โปรแกรม</a></li>
+        <li><a href="#contact">ติดต่อ</a></li>
+      </ul>
+    </nav>
+
+    <nav class="header-right">
+      <button class="nav-toggle">☰</button>
+      <button id="lang-toggle">EN</button>
+    </nav>
+  </div>
+  </div>
+</header>
+
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <h2>Welcome to Astra★</h2>
+      <p>From tarot to birth charts, from AI-guided yes/no wheels to stardust cocktails - your destiny is one click away
+      </p>
+    </div>
+  </section>
+
+  <section id="programs" class="programs-section">
+    <h2>Fortune & Relax</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-image" style="background-image: url('assets/images/card.png');"></div>
+        <h3>Tarot Reading</h3>
+        <p>Let the cards reveal what the stars already know.</p>
+        <a href="tarot.html" class="view-btn"  >GO</a>
+      </div>
+      <div class="project-card">
+        <div class="project-image" style="background-image: url('assets/images/birthchart.png');"></div>
+        <h3>Western Astrology</h3>
+        <p>The moment you were born shaped the cosmos within you.</p>
+        <a href="astrology.html" class="view-btn"  >GO</a>
+      </div>
+      <div class="project-card">
+        <div class="project-image" style="background-image: url('assets/images/roulette.png');"></div>
+        <h3>Wheel of Fortune</h3>
+        <p>Sometimes the universe answers with just one word: yes or no.</p>
+        <a href="wheel-of-fortune.html" class="view-btn"  >GO</a>
+      </div>
+      <div class="project-card">
+        <div class="project-image" style="background-image: url('assets/images/bar.png');"></div>
+        <h3>Stellar Bar</h3>
+        <p>Speak your mind. The Bartender listens.</p>
+        <a href="stellar-bar.html" class="view-btn"  >GO</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2>Contact Information</h2>
+      <div class="contact-content">
+        <div class="contact-item">
+          <h3>Pawanrat Utthamat</h3>
+          <p><strong>student id:</strong> 66304655-9<br><strong>Email:</strong> pawanrat.u@kkumail.com</p>
+        </div>
+        <div class="contact-item">
+          <h3>Pannita Pananun</h3>
+          <p><strong>student id:</strong> 66304658-3<br><strong>Email:</strong> pannita.p@kkumail.com</p>
+        </div>
+        <div class="contact-item">
+          <h3>Pitthaya Phuengsujarit</h3>
+          <p><strong>student id:</strong> 66304659-1<br><strong>Email:</strong> pitthaya.ph@kkumail.com</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>EN813701 Web Application Development Project | 1/2025</p>
+    </div>
+  </footer>
+
+  <script src="scripts/main.js"></script>
+  <script>
+    const translations = {
+      en: {
+        nav: ["Home", "Programs", "Contact"],
+        heroTitle: "Welcome to Astra★",
+        heroDesc: "From tarot to birth charts, from AI-guided yes/no wheels to stardust cocktails - your destiny is one click away",
+        sectionPrograms: "Fortune & Relax",
+        tarotTitle: "Tarot Reading",
+        tarotDesc: "Let the cards reveal what the stars already know.",
+        astroTitle: "Western Astrology",
+        astroDesc: "The moment you were born shaped the cosmos within you.",
+        wheelTitle: "Wheel of Fortune",
+        wheelDesc: "Sometimes the universe answers with just one word: yes or no.",
+        barTitle: "Stellar Bar",
+        barDesc: "Speak your mind. The Bartender listens.",
+        goBtn: "GO",
+        contactTitle: "Contact Information",
+      },
+      th: {
+        nav: ["หน้าแรก", "โปรแกรม", "ติดต่อ"],
+        heroTitle: "ยินดีต้อนรับสู่ Astra★",
+        heroDesc: "จากไพ่ทาโรต์สู่แผนภูมิดวงดาว จากวงล้อแห่งโชคที่ขับเคลื่อนด้วย AI ถึงค็อกเทลดวงดาว — ชะตาของคุณอยู่เพียงแค่คลิกเดียว",
+        sectionPrograms: "ดูดวง & ผ่อนคลาย",
+        tarotTitle: "ดูดวงไพ่ทาโรต์",
+        tarotDesc: "ปล่อยให้ไพ่เปิดเผยสิ่งที่ดวงดาวรู้อยู่แล้ว",
+        astroTitle: "โหราศาสตร์ตะวันตก",
+        astroDesc: "ช่วงเวลาที่คุณเกิดได้หล่อหลอมจักรวาลในตัวคุณ",
+        wheelTitle: "วงล้อแห่งโชคชะตา",
+        wheelDesc: "บางครั้งจักรวาลก็ให้คำตอบแค่คำเดียว — ใช่ หรือ ไม่",
+        barTitle: "บาร์แห่งดวงดาว",
+        barDesc: "พูดในสิ่งที่อยู่ในใจ บาร์เทนเดอร์จะรับฟังคุณ",
+        goBtn: "ไป",
+        contactTitle: "ข้อมูลติดต่อ",
+      }
+    };
+
+    const LANG_KEY = "siteLang";
+    const DEFAULT_LANG = "en";
+
+    function getLang() {
+      return localStorage.getItem(LANG_KEY) || DEFAULT_LANG;
+    }
+
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+
+      // เมนูนำทาง
+      const navItems = document.querySelectorAll(".nav-menu li a");
+      const navTexts = translations[lang].nav;
+      navItems.forEach((item, i) => {
+        if (navTexts[i]) item.textContent = navTexts[i];
+      });
+
+      // hero section
+      document.querySelector(".hero-content h2").textContent = translations[lang].heroTitle;
+      document.querySelector(".hero-content p").textContent = translations[lang].heroDesc;
+
+      // programs section
+      document.querySelector("#programs h2").textContent = translations[lang].sectionPrograms;
+
+      const cards = document.querySelectorAll(".project-card");
+      const titles = [
+        translations[lang].tarotTitle,
+        translations[lang].astroTitle,
+        translations[lang].wheelTitle,
+        translations[lang].barTitle
+      ];
+      const descs = [
+        translations[lang].tarotDesc,
+        translations[lang].astroDesc,
+        translations[lang].wheelDesc,
+        translations[lang].barDesc
+      ];
+
+      cards.forEach((card, i) => {
+        card.querySelector("h3").textContent = titles[i];
+        card.querySelector("p").textContent = descs[i];
+        card.querySelector(".view-btn").textContent = translations[lang].goBtn;
+      });
+
+      // contact section
+      document.querySelector("#contact h2").textContent = translations[lang].contactTitle;
+
+      // ปุ่มสลับภาษา
+      const btn = document.getElementById("lang-toggle");
+      btn.textContent = lang === "en" ? "TH" : "EN";
+      btn.setAttribute("aria-pressed", lang === "th");
+      localStorage.setItem(LANG_KEY, lang);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let lang = getLang();
+      applyLang(lang);
+
+      const btn = document.getElementById("lang-toggle");
+      btn.addEventListener("click", () => {
+        const newLang = getLang() === "en" ? "th" : "en";
+        applyLang(newLang);
+      });
+    });
+  </script>
+
+</body>
+
+</html>
