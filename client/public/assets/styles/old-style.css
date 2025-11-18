@@ -1,0 +1,1560 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a,
+button {
+  caret-color: transparent;
+}
+
+button:focus,
+a:focus {
+  outline: none;
+}
+
+html,
+body {
+  touch-action: pan-x pan-y;
+  overscroll-behavior: none;
+  overflow: hidden; /* 🚫 ปิดการ scroll */
+}
+
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+  overflow-wrap: normal;
+  line-height: 1.6;
+  color: #ffffff;
+  text-align: center;
+  overflow: overlay;
+  background: url(https://i.ibb.co/87GbbFP/2799006.jpg) no-repeat;
+  background-size: auto;
+
+}
+
+/* ===== Layout base ===== */
+/* Layout ครึ่งซ้าย-ขวา */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  /* main ซ้าย, aside ขวา */
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* main ครึ่งซ้าย */
+.layout main {
+  flex: 2 1 40%; /* ลดสัดส่วนเหลือ 40% */
+  max-width: 900px;
+  min-width: 320px;
+  text-align: center;
+  z-index: 1;
+}
+
+/* aside ครึ่งขวา */
+.layout aside {
+  flex: 3 1 60%; /* เพิ่มสัดส่วนเป็น 60% */
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1;
+  position: relative; /* ไพ่จะอิงตำแหน่งนี้ */
+}
+
+::-webkit-scrollbar {
+  background: black;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(41, 49, 90);
+  border-radius: 10px;
+  border: 2px solid rgb(41, 49, 90);
+  backdrop-filter: blur(5px);
+}
+
+::-webkit-scrollbar-corner {
+  border-radius: 10px;
+  background: rgb(0, 0, 0);
+}
+
+/* ====== General styles (เดิมของนาย) ====== */
+h1 {
+  font-family: Georgia, serif;
+  font-size: 64px;
+  overflow-wrap: normal;
+}
+
+#astro-h1 {
+  font-size: 50px;
+}
+
+label {
+  overflow-wrap: normal;
+}
+
+option {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+
+.text-input {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+
+.text-input::placeholder {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+
+#information select {
+  font-family: 'Lucida Sans', sans-serif;
+}
+
+select {
+  font-size: 14px;
+  margin: 5px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: auto;
+  position: relative;
+  font-family: 'Lucida Sans', sans-serif;
+}
+
+.home-btn {
+  font-family: 'Lucida Sans', sans-serif;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 4px 14px;
+  backdrop-filter: blur(4px);
+  transition: background 0.3s ease;
+  z-index: 9999;
+  border-radius: 50%;
+}
+
+.home-btn:hover {
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(255, 0, 150, 0.2),
+    0 0 60px rgba(0, 0, 255, 0.2);
+  /* glow แบบกาแลกซี่ */
+}
+
+.card-container {
+  max-width: 220px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.tarot-img {
+  width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  /* เริ่มจากด้านล่าง + เล็ก + โปร่งใส */
+  opacity: 0;
+  transform: translateY(100px) scale(0.5) rotate(0deg);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  /* ease-out bounce */
+}
+
+.tarot-img.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(var(--rotate, 0deg));
+}
+
+.tarot-image-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: nowrap;
+}
+
+.tarot-name-list {
+  font-weight: bold;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+
+  /* เริ่มต้นแบบโปร่งใส + เลื่อนลงเล็กน้อย */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+/* เมื่อเพิ่มคลาส animate-name */
+.tarot-name-list.animate-name {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#card-result {
+    position: relative;
+    left: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* เรียงตรงกลางแนวนอน */
+    justify-content: flex-start;
+    /* ดันไปด้านบน */
+    gap: 0.5px;
+    margin: 5px auto 0 auto;
+    /* เว้นด้านบนเล็กน้อยและกึ่งกลางแนวนอน */
+    padding-top: 10px;
+    /* เพิ่มระยะห่างจาก top */
+  }
+
+#lang-toggle {
+  position: fixed;
+  top: 90%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0);
+  /* โปร่งใส */
+  color: white;
+  /* ตัวหนังสือสีขาว */
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Glow effect เมื่อ hover หรือถูกกด */
+#lang-toggle:hover,
+#lang-toggle[aria-pressed="true"] {
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(255, 0, 150, 0.2),
+    0 0 60px rgba(0, 0, 255, 0.2);
+}
+
+
+#information {
+  margin-top: 20px;
+}
+
+#question {
+  margin-bottom: 10px;
+}
+
+#card-count-container {
+  margin-bottom: 10px;
+}
+
+.text-input {
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: 300px;
+}
+
+#latitude,
+#longitude {
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: 100px;
+}
+
+
+.btn {
+  background-image: linear-gradient(to right, #2b4376 0%, #322a50 51%, #2b5876 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 12px;
+  margin: 10px;
+  font-weight: bold;
+  transition: 0.5s;
+  background-size: 200% auto;
+  background-position: left center;
+  cursor: pointer;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.btn:hover {
+  color: #79b8ff;
+  text-decoration: none;
+  background-position: right center;
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(255, 0, 150, 0.2),
+    0 0 60px rgba(0, 0, 255, 0.2);
+  /* glow แบบกาแลกซี่ */
+}
+
+#btn-container {
+  display: inline;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInSlide 0.8s ease-out forwards;
+}
+
+.cards {
+  display: grid;
+  grid-template-areas: "cards";
+  position: fixed;
+  right: 25%;
+}
+
+.card {
+  grid-area: cards;
+  display: flex;
+  width: 20vmin;
+  aspect-ratio: 2.0/3.5;
+  border-radius: 2.5vmin;
+  border: 0.2vmin solid hsl(0 0% 0% / 0.25);
+  background-color: #f0f0f0;
+  /* Pattern from heropatterns.com */
+  background-image: url("../images/back-tarot-card-img.jpg");
+  background-size: 0%;
+  will-change: transform;
+  margin: 20px;
+  background-size: cover;
+}
+
+.deck-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.deck-container .card {
+  width: 80px;
+  height: 120px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  user-select: none;
+}
+
+.selected-card-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  z-index: 100000;
+}
+
+/* แอนิเมชั่นให้การ์ดลอยเข้ามา */
+@keyframes floatIn {
+  0% {
+    transform: translateY(-50px) rotate(-10deg) scale(0.5);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(10px) rotate(5deg) scale(1.05);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.selected-card-container .card {
+  animation: floatIn 0.8s ease-out forwards;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.bg {
+  background: url(https://i.ibb.co/87GbbFP/2799006.jpg) no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -3;
+
+}
+
+.bg:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+#bar-bg {
+  background: url("../images/bar-free.png") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -5;
+}
+
+#bar-bg:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+@keyframes sf-fly-by-1 {
+  from {
+    transform: translateZ(-600px);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateZ(0);
+    opacity: 0.5;
+  }
+}
+
+@keyframes sf-fly-by-2 {
+  from {
+    transform: translateZ(-1200px);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateZ(-600px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes sf-fly-by-3 {
+  from {
+    transform: translateZ(-1800px);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateZ(-1200px);
+    opacity: 0.5;
+  }
+}
+
+.star-field {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  perspective: 600px;
+  -webkit-perspective: 600px;
+  z-index: -1;
+}
+
+.star-field .layer {
+  box-shadow: -411px -476px #cccccc, 777px -407px #d4d4d4, -387px -477px #fcfcfc, -91px -235px #d4d4d4, 491px -460px #f7f7f7, 892px -128px #f7f7f7, 758px -277px #ededed, 596px 378px #cccccc, 647px 423px whitesmoke, 183px 389px #c7c7c7,
+    524px -237px #f0f0f0, 679px -535px #e3e3e3, 158px 399px #ededed, 157px 249px #ededed, 81px -450px #ebebeb, 719px -360px #c2c2c2, -499px 473px #e8e8e8, -158px -349px #d4d4d4, 870px -134px #cfcfcf, 446px 404px #c2c2c2,
+    440px 490px #d4d4d4, 414px 507px #e6e6e6, -12px 246px #fcfcfc, -384px 369px #e3e3e3, 641px -413px #fcfcfc, 822px 516px #dbdbdb, 449px 132px #c2c2c2, 727px 146px #f7f7f7, -315px -488px #e6e6e6, 952px -70px #e3e3e3,
+    -869px -29px #dbdbdb, 502px 80px #dedede, 764px 342px #e0e0e0, -150px -380px #dbdbdb, 654px -426px #e3e3e3, -325px -263px #c2c2c2, 755px -447px #c7c7c7, 729px -177px #c2c2c2, -682px -391px #e6e6e6, 554px -176px #ededed,
+    -85px -428px #d9d9d9, 714px 55px #e8e8e8, 359px -285px #cfcfcf, -362px -508px #dedede, 468px -265px #fcfcfc, 74px -500px #c7c7c7, -514px 383px #dbdbdb, 730px -92px #cfcfcf, -112px 287px #c9c9c9, -853px 79px #d6d6d6,
+    828px 475px #d6d6d6, -681px 13px #fafafa, -176px 209px #f0f0f0, 758px 457px #fafafa, -383px -454px #ededed, 813px 179px #d1d1d1, 608px 98px whitesmoke, -860px -65px #c4c4c4, -572px 272px #f7f7f7, 459px 533px #fcfcfc,
+    624px -481px #e6e6e6, 790px 477px #dedede, 731px -403px #ededed, 70px -534px #cccccc, -23px 510px #cfcfcf, -652px -237px whitesmoke, -690px 367px #d1d1d1, 810px 536px #d1d1d1, 774px 293px #c9c9c9, -362px 97px #c2c2c2,
+    563px 47px #dedede, 313px 475px #e0e0e0, 839px -491px #e3e3e3, -217px 377px #d4d4d4, -581px 239px #c2c2c2, -857px 72px #cccccc, -23px 340px #dedede, -837px 246px white, 170px -502px #cfcfcf, 822px -443px #e0e0e0, 795px 497px #e0e0e0,
+    -814px -337px #cfcfcf, 206px -339px #f2f2f2, -779px 108px #e6e6e6, 808px 2px #d4d4d4, 665px 41px #d4d4d4, -564px 64px #cccccc, -380px 74px #cfcfcf, -369px -60px #f7f7f7, 47px -495px #e3e3e3, -383px 368px #f7f7f7, 419px 288px #d1d1d1,
+    -598px -50px #c2c2c2, -833px 187px #c4c4c4, 378px 325px whitesmoke, -703px 375px #d6d6d6, 392px 520px #d9d9d9, -492px -60px #c4c4c4, 759px 288px #ebebeb, 98px -412px #c4c4c4, -911px -277px #c9c9c9;
+  transform-style: preserve-3d;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 4px;
+  width: 4px;
+  border-radius: 2px;
+}
+
+.star-field .layer:nth-child(1) {
+  animation: sf-fly-by-1 5s linear infinite;
+}
+
+.star-field .layer:nth-child(2) {
+  animation: sf-fly-by-2 5s linear infinite;
+}
+
+.star-field .layer:nth-child(3) {
+  animation: sf-fly-by-3 5s linear infinite;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(10, 10, 30, 0.85);
+  /* มืดกว่าปกติแบบท้องฟ้า */
+  backdrop-filter: blur(4px);
+  /* เบลอเล็กน้อย */
+}
+
+.popup-content {
+  background: linear-gradient(135deg, #1a0033, #0a0a1f 80%);
+  margin: 8% 0 0 10%;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 800px;
+  font-size: 16px;
+  color: #f0e6ff;
+  position: relative;
+  max-height: 70vh;
+  overflow-y: auto;
+  border: 1px solid rgba(200, 160, 255, 0.4);
+  box-shadow: 0 0 20px rgba(150, 100, 255, 0.6),
+    0 0 40px rgba(100, 200, 255, 0.3);
+  animation: popupFade 0.5s ease-out;
+}
+
+/* เนื้อหาคำทำนาย */
+.popup-content p {
+  line-height: 1.6;
+  color: #e0d6ff;
+  white-space: pre-wrap;
+}
+
+/* เอฟเฟกต์ fade in */
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.wheel-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wheel {
+  border: 5px solid #fff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(255, 0, 150, 0.2),
+    0 0 60px rgba(0, 0, 255, 0.2);
+  /* glow แบบกาแลกซี่ */
+}
+
+#result {
+  margin-top: 1em;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.pointer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 50px solid #000000;
+  /* เหลืองทองแบบดาว */
+  filter: drop-shadow(0 0 5px #fff);
+  z-index: 10;
+}
+
+.result-popup {
+  position: fixed;
+  top: 45%;
+  left: 71%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 50px;
+  font-weight: bold;
+  color: #ffffff;
+  /* สีเหลืองสด */
+  text-align: center;
+  padding: 40px 60px;
+  border-radius: 70px;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 20px #ffffff;
+  z-index: 9999;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#bartender {
+  position: relative;
+  width: 800px;
+  /* ปรับขนาด container */
+  height: auto;
+}
+
+#bartender img {
+  position: relative;
+  left: 2%;
+  width: 120%;
+  /* ภาพเต็ม container แต่ไม่ใหญ่เกิน */
+  height: auto;
+  display: block;
+}
+
+
+#chat-history {
+  display: flex;
+  left: 10%;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  /* โปร่งใส */
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+#chat-history::-webkit-scrollbar {
+  display: none;
+  /* ซ่อน scrollbar */
+}
+
+/* Bubble ผู้ใช้ (ซ้าย) */
+.chat-bubble.user {
+  position: relative;
+  /* สำหรับ ::after */
+  background-color: #4d79ff;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  max-width: 70%;
+  align-self: flex-start;
+  margin-left: 5%;
+  margin-right: 20%;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+/* Tail ผู้ใช้ */
+.chat-bubble.user::after {
+  content: "";
+  position: absolute;
+  left: -15px;
+  /* อยู่ทางซ้ายของ bubble */
+  top: 10px;
+  /* ปรับสูงต่ำของ tail */
+  border-width: 9px;
+  border-style: solid;
+  border-color: transparent #4d79ff transparent transparent;
+}
+
+/* Bubble bartender (ขวา) */
+.chat-bubble.bartender {
+  position: relative;
+  background-color: #fff;
+  color: #000;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  max-width: 70%;
+  align-self: flex-end;
+  margin-right: 5%;
+  margin-left: 20%;
+  word-wrap: break-word;
+  margin-bottom: 10px;
+}
+
+/* Tail บอท */
+.chat-bubble.bartender::after {
+  content: "";
+  position: absolute;
+  right: -17px;
+  /* อยู่ทางขวาของ bubble */
+  top: 10px;
+  border-width: 9px;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+}
+
+/* แค่ปรับเฉพาะหน้า astrology */
+#astrology-aside {
+  position: relative;
+  left: 20%;
+  width: 700px;
+  /* ความกว้างที่เหมาะสม ไม่ไปเบียด main */
+  max-width: 100%;
+  display: block;
+}
+
+#astrology-aside img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#suggestions {
+  position: absolute;
+  /* ให้อยู่ติดกับ input */
+  background: white;
+  /* พื้นหลังขาว */
+  border: 1px solid #ccc;
+  /* เส้นขอบบาง ๆ */
+  max-height: 200px;
+  /* จำกัดความสูง */
+  overflow-y: auto;
+  /* เลื่อนถ้าเกิน */
+  width: 100%;
+  /* ให้กว้างเท่าช่อง input */
+  z-index: 1000;
+  /* ไม่ให้โดน element อื่นทับ */
+  display: none;
+  /* เริ่มต้นซ่อน */
+  list-style: none;
+  /* เอา bullet ออก */
+  margin: 0;
+  padding: 0;
+}
+
+#suggestions li {
+  color: black;
+  /* ข้อความเป็นสีดำ */
+  background: white;
+  /* พื้นหลังขาว */
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+#suggestions li:hover {
+  background: #f0f0f0;
+  /* เวลาชี้เมาส์ เปลี่ยนสีพื้นหลัง */
+}
+
+/*หน้าโหลด*/
+#loading-answer {
+  display: none !important;
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-right: 12px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 🔮 ปุ่มมุมขวาบน */
+#info-btn {
+  position: fixed;         /* ลอยติดหน้าจอ */
+  top: 20px;               /* ระยะห่างจากขอบบน */
+  right: 20px;             /* ระยะห่างจากขอบขวา */
+  background: linear-gradient(90deg, #5882f5, #ffffff);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+#info-btn:hover {
+  background: linear-gradient(90deg, #ffffff, #5882f5);
+  transform: scale(1.1);
+}
+
+/* 🔮 กล่องข้อความ */
+#info-box {
+  position: fixed;
+  top: 75px;                /* ให้อยู่ใต้ปุ่มนิดหน่อย */
+  right: 20px;
+  background: rgba(255,255,255,0.95);
+  color: #2b004f;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  max-width: 400px;
+  z-index: 999;
+  display: none;
+}
+
+#info-box.show {
+  display: block;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1000px) {
+  html, body {
+  height: 100%;
+  overflow: hidden; /* 🚫 ปิดการ scroll */
+}
+
+  a,
+  button {
+    caret-color: transparent;
+  }
+
+  button:focus,
+  a:focus {
+    outline: none;
+  }
+
+  h1 {
+    font-size: 4rem;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0 10px;
+  }
+
+  label {
+    font-size: 1.2rem;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0 10px;
+  }
+
+  .text-input {
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 10px;
+    width: 300px;
+  }
+
+  #latitude,
+  #longitude {
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 10px;
+    width: 100px;
+  }
+
+  select {
+    font-size: 14px;
+    margin: 5px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 10px;
+    width: auto;
+    position: relative;
+    font-family: 'Lucida Sans', sans-serif;
+  }
+
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  #astrology aside {
+    flex: 1 1 70%;      /* ลดจาก 80% → 70% */
+    max-width: 80%;     
+    height: auto;       /* ให้ขยายตามเนื้อหา */
+    margin: 0 auto;     /* จัดกลาง */
+  }
+
+  #astrology main {
+    flex: 1 1 40%;      /* ลดจาก 80% → 70% */
+    max-width: 100%;     
+    height: auto;       /* ให้ขยายตามเนื้อหา */
+    margin: 0 auto;     /* จัดกลาง */
+  }
+
+  /* main ใหญ่กว่า aside */
+  .layout main {
+    flex: 1 1 90%;      /* main กว้างกว่า aside */
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    background-image: linear-gradient(to right, #2b4376 0%, #322a50 51%, #2b5876 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    margin: 10px;
+    font-weight: bold;
+    transition: 0.5s;
+    background-size: 200% auto;
+    background-position: left center;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  .btn:hover {
+    color: #79b8ff;
+    text-decoration: none;
+    background-position: right center;
+    box-shadow:
+      0 0 20px rgba(0, 255, 255, 0.3),
+      0 0 40px rgba(255, 0, 150, 0.2),
+      0 0 60px rgba(0, 0, 255, 0.2);
+    /* glow แบบกาแลกซี่ */
+  }
+
+  #btn-container {
+    display: inline;
+  }
+
+  #information {
+    margin-bottom: 5%;
+  }
+
+  .deck-container {
+    margin-top: 50px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .deck-container .card {
+    width: 18vmin;
+    height: auto;
+    aspect-ratio: 2/3.5;
+    font-size: 1rem;
+    border-radius: 2vmin;
+    margin: 5px;
+  }
+
+  .cards {
+    justify-items: center;
+  }
+
+  .selected-card-container {
+    margin-top: 40px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  #astrology-aside {
+    position:relative;
+    top: 60%;
+    left: 10%;
+    width: 500px;
+  }
+
+  #astrology-aside img {
+  width: 50%;
+  height: auto;
+}
+
+  canvas {
+    height: auto;
+    width: 500px;
+  }
+
+  .wheel-container {
+    position: fixed;
+    top: 40%;
+  }
+
+  .cards {
+    position: fixed;
+    top: 60%;
+    right: 35%;
+  }
+
+  .tarot-img {
+    width: 100px;
+    /* ลดขนาดไพ่ให้พอดีกับหน้าจอเล็ก */
+    height: auto;
+  }
+
+  .tarot-image-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* ให้ไพ่ลงบรรทัดใหม่ */
+    gap: 8px;
+    margin: 0;
+  }
+
+  .tarot-name-row p {
+    font-size: 4rem;
+    line-height: 1.2;
+  }
+
+  .tarot-meaning-list li p {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  #card-result {
+    position: fixed;
+    top: 60%;
+    left: 13%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .popup-content {
+    top: 15%;
+    margin: 10% auto 0 auto;
+    padding: 15px;
+    width: 90%;
+    max-width: 600px;
+    font-size: 14px;
+    border-radius: 10px;
+    max-height: calc(40vh - 40px);
+    overflow-y: auto;
+  }
+
+  .popup-content h2 {
+    font-size: 1.2rem;
+    /* ลดขนาดหัวข้อ */
+    margin-bottom: 10px;
+  }
+
+  .popup-content p {
+    font-size: 0.9rem;
+    /* ลดขนาดข้อความ */
+    line-height: 1.4;
+  }
+
+#lang-toggle {
+  position: fixed;          /* ให้ปุ่มลอยอยู่ด้านบนของหน้าจอ */
+  top: 25px;                /* ระยะห่างจากขอบบน */
+  left: 50%;                /* จัดให้อยู่กึ่งกลางตามแนวนอน */
+  transform: translateX(-50%); /* ขยับให้ศูนย์กลางพอดีกลางจอ */
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0);
+  /* โปร่งใส */
+  color: white;
+  /* ตัวหนังสือสีขาว */
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+
+.result-popup {
+  position: fixed;
+  top: 58%;        /* วางตรงกลางแนวตั้ง */
+  left: 50%;       /* วางตรงกลางแนวนอน */
+  font-weight: bold;
+  color: #ffffff;
+  /* สีเหลืองสด */
+  text-align: center;
+  padding: 10px 20px;
+  max-width: 90%;
+}
+
+#chat-history {
+  position: fixed;
+  left: 19%;
+  width: 500px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  /* โปร่งใส */
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.chat-bubble.user, .chat-bubble.bot{
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+#stellar-bar-aside{
+  display: flex;
+  justify-content: center; /* จัดแนวนอนตรงกลาง */
+  align-items: center;     /* จัดแนวตั้งตรงกลาง */
+  text-align: center;
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+}
+
+ #bartender {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  #bartender img {
+  position: relative;
+  left: 2%;
+  width: 100%;
+  /* ภาพเต็ม container แต่ไม่ใหญ่เกิน */
+  height: auto;
+  display: block;
+}
+  /* เอา height:20% ที่บังคับไว้ใน layout aside ออก */
+  .layout aside {
+    height: auto !important;
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  html, body {
+  height: 100%;
+  overflow: hidden; /* 🚫 ปิดการ scroll */
+}
+
+  a,
+  button {
+    caret-color: transparent;
+  }
+
+  button:focus,
+  a:focus {
+    outline: none;
+  }
+
+  h1 {
+    font-size: 2rem;
+    white-space: normal;
+    /* อนุญาตให้ตัดบรรทัด */
+    word-break: break-word;
+    /* บังคับตัดถ้าคำยาวเกิน */
+    text-align: center;
+    /* จัดกลางให้ดูบาลานซ์ */
+    line-height: 1.2;
+    /* ระยะห่างบรรทัดพอดี */
+    margin: 0 10px;
+    /* กันขอบ */
+  }
+
+  label {
+    font-size: 0.8rem;
+    white-space: normal;
+    /* อนุญาตให้ตัดบรรทัด */
+    word-break: break-word;
+    /* บังคับตัดถ้าคำยาวเกิน */
+    text-align: center;
+    /* จัดกลางให้ดูบาลานซ์ */
+    line-height: 1.2;
+    /* ระยะห่างบรรทัดพอดี */
+    margin: 0 10px;
+    /* กันขอบ */
+  }
+
+  .text-input {
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 5px;
+    width: 200px;
+  }
+
+  #latitude,
+  #longitude {
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 5px;
+    width: 70px;
+  }
+
+  select {
+    font-size: 14px;
+    margin: 5px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 5px;
+    width: auto;
+    position: relative;
+    font-family: 'Lucida Sans', sans-serif;
+  }
+
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    background-image: linear-gradient(to right, #2b4376 0%, #322a50 51%, #2b5876 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 12px;
+    margin: 10px;
+    font-weight: bold;
+    transition: 0.5s;
+    background-size: 200% auto;
+    background-position: left center;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  .btn:hover {
+    color: #79b8ff;
+    text-decoration: none;
+    background-position: right center;
+    box-shadow:
+      0 0 20px rgba(0, 255, 255, 0.3),
+      0 0 40px rgba(255, 0, 150, 0.2),
+      0 0 60px rgba(0, 0, 255, 0.2);
+    /* glow แบบกาแลกซี่ */
+  }
+
+  #btn-container {
+    display: inline;
+  }
+
+  #information {
+    margin-bottom: 5%;
+  }
+
+  .deck-container {
+    margin-top: 50px;
+    /* ขยับขึ้นใกล้กลางหน้าจอ */
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .deck-container .card {
+    width: 20vmin;
+    /* ขนาดใหญ่ขึ้นบนมือถือ */
+    height: auto;
+    /* รักษาสัดส่วนด้วย aspect-ratio */
+    aspect-ratio: 2/3.5;
+    font-size: 1rem;
+    /* ปรับตัวอักษรให้ใหญ่พอดี */
+    border-radius: 2vmin;
+    /* ปรับโค้งมนตามขนาดใหม่ */
+    margin: 5px;
+  }
+
+  .cards {
+    justify-items: center;
+    /* จัดการ์ดตรงกลาง container */
+  }
+
+  .selected-card-container {
+    margin-top: 40px;
+    /* ปรับให้ช่องว่างพอดี */
+    gap: 10px;
+    justify-content: center;
+  }
+
+  #astrology-aside {
+    position:relative;
+    top: 60%;
+    left: 6%;
+    width: 600px;
+  }
+
+  #astrology-aside img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+  canvas {
+    height: auto;
+    width: 350px;
+  }
+
+  .wheel-container {
+    position: fixed;
+    top: 40%;
+  }
+
+  .cards {
+    position: fixed;
+    top: 60%;
+  }
+
+  .tarot-img {
+    width: 100px;
+    /* ลดขนาดไพ่ให้พอดีกับหน้าจอเล็ก */
+    height: auto;
+  }
+
+  .tarot-image-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .tarot-name-row p {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .tarot-meaning-list li p {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  #card-result {
+    position: fixed;
+    top: 60%;
+    left: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .popup-content {
+    top: 15%;
+    margin: 10% auto 0 auto;
+    /* เว้นระยะจากบนเล็กน้อยและกึ่งกลางแนวนอน */
+    padding: 15px;
+    /* ลด padding */
+    width: 90%;
+    /* กว้างพอดีหน้าจอมือถือ */
+    max-width: 350px;
+    /* จำกัดไม่ให้ใหญ่เกิน */
+    font-size: 14px;
+    /* ลดตัวอักษรลง */
+    border-radius: 10px;
+    /* ปรับมุมให้โค้งเล็กลง */
+    max-height: calc(40vh - 40px);
+    /* ให้สูงพอดีกับ viewport ลบ margin */
+    overflow-y: auto;
+  }
+
+  .popup-content h2 {
+    font-size: 1.2rem;
+    /* ลดขนาดหัวข้อ */
+    margin-bottom: 10px;
+  }
+
+  .popup-content p {
+    font-size: 0.9rem;
+    /* ลดขนาดข้อความ */
+    line-height: 1.4;
+  }
+
+.result-popup {
+  position: fixed;
+  top: 58%;        /* วางตรงกลางแนวตั้ง */
+  left: 50%;       /* วางตรงกลางแนวนอน */
+  font-weight: bold;
+  color: #ffffff;
+  /* สีเหลืองสด */
+  text-align: center;
+  padding: 10px 20px;
+  max-width: 90%;
+}
+
+#chat-history {
+  position: fixed;
+  left: -1%;
+  width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  /* โปร่งใส */
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.chat-bubble.user, .chat-bubble.bot{
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+#stellar-bar-aside{
+  display: flex;
+  justify-content: center; /* จัดแนวนอนตรงกลาง */
+  align-items: center;     /* จัดแนวตั้งตรงกลาง */
+  text-align: center;
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+}
+
+ #bartender {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  #bartender img {
+  position: relative;
+  left: 2%;
+  width: 100%;
+  /* ภาพเต็ม container แต่ไม่ใหญ่เกิน */
+  height: auto;
+  display: block;
+}
+
+
+  /* เอา height:20% ที่บังคับไว้ใน layout aside ออก */
+  .layout aside {
+    height: auto !important;
+  }
+}
+

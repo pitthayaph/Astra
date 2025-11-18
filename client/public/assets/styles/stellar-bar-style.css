@@ -1,0 +1,442 @@
+/* ===== Layout สำหรับ Stellar Bar ===== */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.layout main {
+  flex: 2 1 40%;
+  max-width: 900px;
+  min-width: 320px;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.layout aside {
+  flex: 3 1 60%;
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+/* ===== Background สำหรับ Bar ===== */
+#bar-bg {
+  background: url("../images/bar-free.png") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -5;
+}
+
+#bar-bg:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+/* ===== Bartender Image ===== */
+#bartender {
+  position: relative;
+  width: 800px;
+  height: auto;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#bartender img {
+  position: relative;
+  left: 20%;
+  width: 140%;
+  height: auto;
+  display: block;
+}
+
+/* ===== Chat History Container ===== */
+#chat-history {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 10px;
+  position: relative;
+  z-index: 15;
+}
+
+#chat-history::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== Chat Bubbles ===== */
+/* Bubble ผู้ใช้ (ซ้าย) */
+.chat-bubble.user {
+  position: relative;
+  background-color: #4d79ff;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  max-width: 70%;
+  align-self: flex-start;
+  margin-left: 5%;
+  margin-right: 20%;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  z-index: 16;
+}
+
+/* Tail ผู้ใช้ */
+.chat-bubble.user::after {
+  content: "";
+  position: absolute;
+  left: -15px;
+  top: 10px;
+  border-width: 9px;
+  border-style: solid;
+  border-color: transparent #4d79ff transparent transparent;
+}
+
+/* Bubble bartender (ขวา) */
+.chat-bubble.bartender {
+  position: relative;
+  background-color: #fff;
+  color: #000;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  max-width: 70%;
+  align-self: flex-end;
+  margin-right: 5%;
+  margin-left: 20%;
+  word-wrap: break-word;
+  margin-bottom: 10px;
+  z-index: 16;
+}
+
+/* Tail บอท */
+.chat-bubble.bartender::after {
+  content: "";
+  position: absolute;
+  right: -17px;
+  top: 10px;
+  border-width: 9px;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+}
+
+/* ===== Specific Elements ===== */
+#stellar-bar-aside {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+}
+
+#information {
+  margin-top: 20px;
+}
+
+#question {
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 15;
+}
+
+#btn-container {
+  display: inline;
+}
+
+/* ===== Responsive for Stellar Bar ===== */
+
+/* ipad แนวนอน / notebook */
+@media (min-width: 951px) and (max-width: 1366px) {
+  .layout {
+    flex-direction: row;
+    /* ยืนยันว่า side-by-side */
+    gap: 1rem;
+  }
+
+  .layout main {
+    flex: 1 1 50%;
+    max-width: 50%;
+    order: 1;
+    margin: 0;
+    position: relative;
+  }
+
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 50%;
+    order: 2;
+    height: auto !important;
+    position: relative;
+  }
+
+  #bartender {
+    width: 500pxs;
+    /* ให้เต็ม container aside */
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #bartender img {
+    width: 90%;
+    height: auto;
+    position: relative;
+    left: 5%;
+  }
+
+  #chat-history {
+    max-height: 350px;
+    max-width: 100%;
+  }
+}
+
+
+/* ipad แนวตั้ง / notebook */
+@media (min-width: 700px) and (max-width: 1000px) and (min-height: 900px) {
+  .layout {
+    margin-top: 15%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 90%;
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+    order: 1;
+  }
+
+  .layout aside {
+    height: auto !important;
+    order: 2;
+  }
+
+  #stellar-bar-aside {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  #bartender {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 10px;
+    /* เว้นขอบซ้ายขวาเล็กน้อย */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #bartender img {
+    position: relative;
+    left: 0;
+    width: 80%;
+  }
+
+  #chat-history {
+    position: relative;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 100%;
+    max-height: 30vh;
+    z-index: 100;
+  }
+
+  .chat-bubble.user,
+  .chat-bubble.bartender {
+    font-size: 15px;
+  }
+}
+
+/* โทรศัพท์แนวนอน */
+@media (min-width: 650px) and (max-width: 951px) and (max-height: 820px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .layout {
+    margin-top: 5%;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 5px;
+  }
+
+  .layout main {
+    flex: 1 1 50%;
+    max-width: 50%;
+    order: 1;
+    margin: 0;
+    position: relative;
+  }
+
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 50%;
+    order: 2;
+    height: auto !important;
+    position: relative;
+  }
+
+  #bartender {
+    width: 100%;
+    max-width: 90%;
+    /* ปรับให้เต็มกล่อง aside */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #bartender img {
+    position: relative;
+    width: 80%;
+    height: auto;
+    display: block;
+    left: 0%;
+  }
+
+  #chat-history {
+    position: relative;
+    /* ไม่ต้อง fixed */
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    max-height: 45vh;
+    margin: 0 auto;
+    z-index: 100;
+  }
+
+  .chat-bubble.user,
+  .chat-bubble.bartender {
+    font-size: 13px;
+    max-width: 85%;
+  }
+}
+
+
+/* โทรศัพท์แนวตั้ง */
+@media (max-width: 700px) and (min-height: 400px) {
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    order: 1;
+    z-index: 20;
+    position: relative;
+  }
+
+  .layout aside {
+    height: auto !important;
+    order: 2;
+    z-index: 5;
+  }
+
+  #stellar-bar-aside {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+  }
+
+  #bartender {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  #bartender img {
+    position: relative;
+    left: 0;
+    width: 100%;
+  }
+
+  #chat-history {
+    position: relative;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    max-height: 30vh;
+    z-index: 100;
+  }
+
+  .chat-bubble.user,
+  .chat-bubble.bartender {
+    font-size: 13px;
+    max-width: 85%;
+    margin-bottom: 8px;
+  }
+}

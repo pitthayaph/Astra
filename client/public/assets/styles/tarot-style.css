@@ -1,0 +1,708 @@
+/* ===== Layout สำหรับ Tarot ===== */
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.layout main {
+  flex: 2 1 40%;
+  max-width: 900px;
+  min-width: 320px;
+  text-align: center;
+  z-index: 1;
+}
+
+.layout aside {
+  flex: 3 1 60%;
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+/* ===== Form Elements ===== */
+#question {
+  margin-bottom: 10px;
+}
+
+#card-count-container {
+  margin-bottom: 10px;
+}
+
+#btn-container {
+  display: inline;
+}
+
+/* ===== Cards Display ===== */
+.cards {
+  display: grid;
+  grid-template-areas: "cards";
+  position: fixed;
+  right: 25%;
+}
+
+.card {
+  grid-area: cards;
+  display: flex;
+  width: 20vmin;
+  aspect-ratio: 2.0/3.5;
+  border-radius: 2.5vmin;
+  border: 0.2vmin solid hsl(0 0% 0% / 0.25);
+  background-color: #f0f0f0;
+  background-image: url("../images/back-tarot-card-img.jpg");
+  background-size: cover;
+  will-change: transform;
+  margin: 20px;
+}
+
+/* ===== Card Container ===== */
+.card-container {
+  max-width: 220px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
+/* ===== Tarot Images ===== */
+.tarot-img {
+  width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(100px) scale(0.5) rotate(0deg);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.tarot-img.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(var(--rotate, 0deg));
+}
+
+.tarot-image-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: nowrap;
+}
+
+/* ===== Tarot Names ===== */
+.tarot-name-list {
+  font-weight: bold;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+.tarot-name-list.animate-name {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tarot-name-row p {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.tarot-meaning-list li p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* ===== Card Result Container ===== */
+#card-result {
+  position: relative;
+  left: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5px;
+  margin: 5px auto 0 auto;
+  padding-top: 10px;
+}
+
+/* ===== Deck Container ===== */
+.deck-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.deck-container .card {
+  width: 80px;
+  height: 120px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  user-select: none;
+}
+
+/* ===== Selected Card Container ===== */
+.selected-card-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  z-index: 100000;
+}
+
+@keyframes floatIn {
+  0% {
+    transform: translateY(-50px) rotate(-10deg) scale(0.5);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(10px) rotate(5deg) scale(1.05);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.selected-card-container .card {
+  animation: floatIn 0.8s ease-out forwards;
+}
+
+/* ===== Popup ===== */
+.popup {
+  display: none;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(10, 10, 30, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.popup-content {
+  background: linear-gradient(135deg, #1a0033, #0a0a1f 80%);
+  margin: 8% 0 0 10%;
+  top: 5%;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 800px;
+  font-size: 16px;
+  color: #f0e6ff;
+  position: relative;
+  max-height: 70vh;
+  overflow-y: auto;
+  border: 1px solid rgba(200, 160, 255, 0.4);
+  box-shadow: 0 0 20px rgba(150, 100, 255, 0.6),
+    0 0 40px rgba(100, 200, 255, 0.3);
+  animation: popupFade 0.5s ease-out;
+}
+
+
+
+.popup-content p {
+  line-height: 1.6;
+  color: #e0d6ff;
+  white-space: pre-wrap;
+}
+
+.popup-content .user-question {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.popup-content .ai-answer {
+  margin-top: 8px;
+  color: #e0d6ff;
+}
+
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== Responsive for Tarot ===== */
+
+/* iPad แนวนอน / Notebook */
+@media (min-width: 951px) and (max-width: 1370px) and (max-height: 1025px) {
+
+  html,
+  body {
+    overflow: hidden;
+  }
+
+  .layout main,
+  .layout aside {
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 45%;
+    /* main เล็กลง */
+    max-width: 45%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .layout aside {
+    position: relative;
+    flex: 1.2 1 55%;
+    /* aside ใหญ่ขึ้นนิดหน่อย */
+    max-width: 55%;
+    height: auto !important;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10%;
+    width: 100%;
+    height: 100%;
+    /* เพื่อให้ลูกอิงเต็มความสูง */
+  }
+
+  .cards {
+    right: auto;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .layout aside {
+    height: auto !important;
+  }
+
+  .popup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-content {
+    position: absolute;
+    top: 5%;
+    left: -2%;
+    width: 40%;
+    max-width: 500px;
+    max-height: 75vh;
+    overflow-y: auto;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    padding: 18px;
+  }
+
+  #card-result {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .tarot-name-row p {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .tarot-img {
+    width: 120px;
+  }
+}
+
+/* iPad แนวตั้ง / Tablet Portrait */
+@media (min-width: 700px) and (max-width: 1030px) and (min-height: 900px) {
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 90%;
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .deck-container {
+    margin-top: 50px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .deck-container .card {
+    width: 18vmin;
+    height: auto;
+    aspect-ratio: 2/3.5;
+    font-size: 1rem;
+    border-radius: 2vmin;
+    margin: 5px;
+  }
+
+  .cards {
+    justify-items: center;
+    position: fixed;
+    top: 60%;
+    right: 35%;
+  }
+
+  .selected-card-container {
+    margin-top: 40px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .tarot-img {
+    width: clamp(120px, 15vw, 180px);
+    height: auto;
+  }
+
+  .tarot-name-row p {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    line-height: 1.3;
+  }
+
+  .tarot-meaning-list li p {
+    font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+    line-height: 1.4;
+  }
+
+  .tarot-image-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(10px, 2vw, 20px);
+    margin: 0;
+  }
+
+  #card-result {
+    position: fixed;
+    top: clamp(58%, 52vw, 60%);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .layout aside {
+    height: auto !important;
+  }
+
+  .popup-content {
+    top: 5%;
+    margin: 10% auto 0 auto;
+    padding: clamp(15px, 2vw, 25px);
+    width: 85%;
+    max-width: 750px;
+    font-size: clamp(14px, 1.5vw, 18px);
+    border-radius: 10px;
+    max-height: calc(70vh - 40px);
+    overflow-y: auto;
+  }
+
+  .popup-content h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .popup-content p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+}
+
+/* โทรศัพท์แนวนอน / Phone Landscape */
+@media (min-width: 650px) and (max-width: 951px) and (max-height: 820px) {
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .layout main,
+  .layout aside {
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 45%;
+    /* main เล็กลง */
+    max-width: 45%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .layout aside {
+    flex: 1.2 1 55%;
+    /* aside ใหญ่ขึ้นนิดหน่อย */
+    max-width: 55%;
+    height: auto !important;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10%;
+  }
+
+  .deck-container {
+    margin-top: 30px;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .deck-container .card {
+    width: 16vmin;
+    height: auto;
+    aspect-ratio: 2/3.5;
+    font-size: 0.9rem;
+    border-radius: 2vmin;
+    margin: 4px;
+  }
+
+  .cards {
+    position: relative;
+    right: auto;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .selected-card-container {
+    margin-top: 30px;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .popup-content {
+    position: fixed;
+    top: 50%;
+    left: 3%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 12px;
+    width: 48%;
+    max-width: none;
+    font-size: 11px;
+    border-radius: 10px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .popup-content h2 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .popup-content p {
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .tarot-img {
+    width: 80px;
+    height: auto;
+  }
+
+  .tarot-image-row {
+    gap: 6px;
+  }
+
+  .tarot-name-row p {
+    font-size: 0.8rem;
+    line-height: 1.1;
+  }
+
+  #card-result {
+    position: fixed;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-50%);
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+    max-width: none;
+    margin: 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* โทรศัพท์แนวตั้ง / Phone Portrait */
+@media (max-width: 700px) and (min-height: 400px) {
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 100%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: auto;
+  }
+
+  .layout main {
+    flex: 1 1 90%;
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .deck-container {
+    margin-top: 50px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .deck-container .card {
+    width: 20vmin;
+    height: auto;
+    aspect-ratio: 2/3.5;
+    font-size: 1rem;
+    border-radius: 2vmin;
+    margin: 5px;
+  }
+
+  .cards {
+    justify-items: center;
+    right: auto;
+    bottom: 25%;
+  }
+
+  .selected-card-container {
+    margin-top: 40px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .popup-content {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 12px;
+    width: 92%;
+    max-width: 380px;
+    font-size: 12px;
+    border-radius: 10px;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .popup-content h2 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .popup-content p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .tarot-img {
+    width: 85px;
+    height: auto;
+  }
+
+  .tarot-image-row {
+    gap: 6px;
+  }
+
+  .tarot-name-row p {
+    font-size: 0.85rem;
+    line-height: 1.1;
+  }
+
+  #card-result {
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    max-height: 40vh;
+    overflow-y: auto;
+    padding: 0 5px;
+  }
+}

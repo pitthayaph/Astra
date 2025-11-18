@@ -1,0 +1,317 @@
+/* ===== Layout สำหรับ Wheel of Fortune ===== */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.layout main {
+  flex: 2 1 40%;
+  max-width: 900px;
+  min-width: 320px;
+  text-align: center;
+  z-index: 1;
+}
+
+.layout aside {
+  flex: 3 1 60%;
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+/* ===== Form Elements ===== */
+#question {
+  margin-bottom: 10px;
+}
+
+#btn-container {
+  display: inline;
+}
+
+/* ===== Wheel Container ===== */
+.wheel-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wheel {
+  border: 5px solid #fff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 20px rgba(0, 255, 255, 0.3),
+    0 0 40px rgba(255, 0, 150, 0.2),
+    0 0 60px rgba(0, 0, 255, 0.2);
+}
+
+/* ===== Pointer (ลูกศรชี้) ===== */
+.pointer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 50px solid #000000;
+  filter: drop-shadow(0 0 5px #fff);
+  z-index: 10;
+}
+
+/* ===== Result Popup ===== */
+#result {
+  margin-top: 1em;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.result-popup {
+  position: absolute; /* อยู่ภายใน container */
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 50px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  padding: 40px 60px;
+  border-radius: 70px;
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 20px #ffffff;
+  z-index: 9999;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Responsive for Wheel of Fortune ===== */
+/* ipad แนวนอน / notebook */
+@media (min-width: 951px) and (max-width: 1366px) {
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 90%;
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    height: auto;
+    width: 400px;
+  }
+
+  .wheel-container {
+    position: relative;
+  }
+
+  .result-popup {
+    position: absolute;
+    top: 40%;
+    left: 59%;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+    max-width: 90%;
+  }
+
+  .layout aside {
+    height: auto !important;
+  }
+}
+
+/* ipad แนวตั้ง / notebook */
+@media (min-width: 700px) and (max-width: 1000px) and (min-height: 900px) {
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 90%;
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    height: auto;
+    width: 500px;
+  }
+
+  .wheel-container {
+    position: fixed;
+    top: 40%;
+  }
+
+  .result-popup {
+    position: absolute;
+    top: 43%;
+    left: 58%;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+    max-width: 90%;
+  }
+
+  .layout aside {
+    height: auto !important;
+  }
+}
+/* โทรศัพท์แนวนอน */
+@media (min-width: 650px) and (max-width: 951px) and (max-height: 820px) {
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .layout main {
+    flex: 1 1 90%;
+    max-width: 95%;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    height: auto;
+    width: 250px;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .result-popup {
+    position: absolute; 
+    top: 35%;
+    left: 63%;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+  }
+
+  .layout aside {
+    height: auto !important;
+  }
+}
+
+/* โทรศัพท์แนวตั้ง */
+@media (max-width: 700px) and (min-height: 400px) {
+  .layout {
+    margin-top: 20%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0rem;
+    padding: 10px 10px;
+  }
+
+  .layout main,
+  .layout aside {
+    flex: 1 1 50%;
+    max-width: 95%;
+    min-width: unset;
+    padding: 5px;
+    text-align: center;
+    height: 20%;
+  }
+
+  .wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    height: auto;
+    width: 350px;
+  }
+
+  .wheel-container {
+    position: fixed;
+    top: 40%;
+  }
+
+  .result-popup {
+    position: absolute;
+    top: 45%;
+    left: 66%;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+  }
+
+  .layout aside {
+    height: auto !important;
+  }
+
+
+}
